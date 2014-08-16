@@ -17,4 +17,4 @@ $ go get github.com/hiroeorz/mewtocol-go/mewtocol
 
 ## Usage
 
-See main.go
+See [main.go](https://github.com/hiroeorz/mewtocol-go/blob/master/main.go)
