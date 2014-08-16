@@ -12,7 +12,7 @@ func main() {
                          stty -F /dev/ttyAPP4 9600 parenb parodd cs8 -cstopb cread -crtscts`
 
 	// Above setup command is my device special.
-	// Normaly use 
+	// Normally use
 	// ```setupCommand = "stty -F /dev/ttyAPP4 9600 parenb parodd cs8 -cstopb cread -crtscts"```
 	f, err := mewtocol.OpenPLC("/dev/ttyAPP4", setupCommand)
 
