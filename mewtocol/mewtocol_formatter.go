@@ -94,7 +94,7 @@ func formatWriteDataArea(dstAddress uint, dataCode string, startWordNo uint, val
 		lower := hex[2:]
 		valBin := append(lower, upper...)
 		valuesBin = append(valuesBin, valBin...)
-		endWordNo = i
+		endWordNo = startWordNo + i
 	}
 
 	command := "WD" + dataCode + fmt.Sprintf("%05d", startWordNo) + fmt.Sprintf("%05d", endWordNo)
