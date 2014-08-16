@@ -87,16 +87,17 @@ func formatWriteDataArea(dstAddress uint, dataCode string, startWordNo uint, val
 	}
 
 	valuesBin := []byte{}
-	endWordNo := 0
+	index := 0
 	for i, val := range values {
 		hex := []byte(fmt.Sprintf("%04x", val))
 		upper := hex[:2]
 		lower := hex[2:]
 		valBin := append(lower, upper...)
 		valuesBin = append(valuesBin, valBin...)
-		endWordNo = startWordNo + i
+		index = i
 	}
 
+	endWordNo = startWordNo + uint(index)
 	command := "WD" + dataCode + fmt.Sprintf("%05d", startWordNo) + fmt.Sprintf("%05d", endWordNo)
 	command += strings.ToUpper(string(valuesBin))
 	return format(dstAddress, command)
