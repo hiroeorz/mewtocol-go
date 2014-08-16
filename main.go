@@ -40,8 +40,8 @@ func main() {
 	fmt.Println("------------")
 
 	// 外部出力のステータスをワード単位で取得する
-	res2, _ := mewtocol.ReadIOWord(f, dst, "Y", 0, 2)
-	fmt.Println("input list->", res2)
+	res20, _ := mewtocol.ReadIOWord(f, dst, "Y", 0, 2)
+	fmt.Println("input list->", res20)
 
 	fmt.Println("=================================================")
 
