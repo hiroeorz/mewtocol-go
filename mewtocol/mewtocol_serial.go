@@ -10,6 +10,37 @@ import (
 	"syscall"
 )
 
+/*
+Test by console
+
+First, you have to setting serial device (ex:/dev/ttyAPP4)
+
+```
+$ stty -F /dev/ttyAPP4 9600 parenb parodd cs8 -cstopb cread -crtscts
+```
+
+console1
+
+```
+$ cat /dev/ttyAPP4
+
+
+```
+
+and console2
+
+```
+$ echo -e "%01#RCSX00001D\r" > /dev/ttyAPP4
+```
+
+Now, you caught response in console1
+
+```
+%01$RC021
+```
+
+*/
+
 // Mewtocol通信用にシリアルポートをオープンします
 // setupCommand: exp: "stty -F /dev/ttyAPP4 9600 parenb parodd cs8 -cstopb cread -crtscts"
 func OpenPLC(name string, setupCommand string) (*os.File, error) {

@@ -88,6 +88,8 @@ func send(f *os.File, sendStr string) (string, error) {
 	}
 }
 
+// 水平パリティチェックの為のコード(2byte)を生成して返す。
+// ヘッダからBCC直前までのデータにたいして1byteづつ排他的論理和をとった結果を16進数文字列にして返す。
 func getBcc(str string) string {
 	buff := []byte(str)
 	result := buff[0]

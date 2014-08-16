@@ -6,37 +6,6 @@ import (
 	"strings"
 )
 
-/*
-Test by console
-
-First, you have to setting serial device (ex:/dev/ttyAPP4)
-
-```
-$ stty -F /dev/ttyAPP4 9600 parenb parodd cs8 -cstopb cread -crtscts
-```
-
-console1
-
-```
-$ cat /dev/ttyAPP4
-
-
-```
-
-and console2
-
-```
-$ echo -e "%01#RCSX00001D\r" > /dev/ttyAPP4
-```
-
-Now, you caught response in console1
-
-```
-%01$RC021
-```
-
-*/
-
 // 指定した1点の接点状態を読み出す電文を生成して返す
 // contactCode:
 //    X: 外部入力

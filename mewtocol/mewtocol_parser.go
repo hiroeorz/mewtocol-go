@@ -69,14 +69,15 @@ func ParseWriteDataArea(str string) (bool, error) {
 	return true, nil
 }
 
+// byteのスライスを2バイトづつ数値に変換して、数値のスライスにして返す。
 func parseListData(data []byte) []uint32 {
 	count := len(data) / 4
 	list := []uint32{}
 
 	for i := 0; i < count; i++ {
 		n := i * 4
-		valLower := data[(n + 0):(n + 2)] //ビッグエンディアンにする
-		valUpper := data[(n + 2):(n + 4)]
+		valLower := data[(n + 0):(n + 2)] // 下位を前半に受信する
+		valUpper := data[(n + 2):(n + 4)] // 上位を後半で受信する
 		val := []byte{}
 		val = append(val, valUpper...)
 		val = append(val, valLower...)
