@@ -97,7 +97,7 @@ func formatWriteDataArea(dstAddress uint, dataCode string, startWordNo uint, val
 		index = i
 	}
 
-	endWordNo = startWordNo + uint(index)
+	endWordNo := startWordNo + uint(index)
 	command := "WD" + dataCode + fmt.Sprintf("%05d", startWordNo) + fmt.Sprintf("%05d", endWordNo)
 	command += strings.ToUpper(string(valuesBin))
 	return format(dstAddress, command)
