@@ -102,7 +102,7 @@ func formatWriteDataArea(dstAddress uint, dataCode string, startWordNo uint, val
 	return format(dstAddress, command)
 }
 
-// 渡されたコマンド本体にヘッダとBCCおよびCRを追加する。
+// 渡されたコマンド本体にヘッダとBCCを追加する。
 // ここでは末尾のCRは付加しません。送信時に付加してください
 func format(dstAddress uint, body string) string {
 	command := header() + address(dstAddress) + command() + body
