@@ -14,7 +14,7 @@ type Mewtocol struct {
 }
 
 // PLCからの接点単体取得応答をパースして値を返す
-func ParseReadIOSingle(str string) (bool, error) {
+func parseReadIOSingle(str string) (bool, error) {
 	res, err := parseHeader(str)
 	if err != nil {
 		return false, err
@@ -30,7 +30,7 @@ func ParseReadIOSingle(str string) (bool, error) {
 }
 
 // PLCからの接点ワード単位取得応答をパースして値を返す
-func ParseReadIOWord(str string) ([]uint32, error) {
+func parseReadIOWord(str string) ([]uint32, error) {
 	res, err := parseHeader(str)
 	if err != nil {
 		return nil, err
@@ -40,7 +40,7 @@ func ParseReadIOWord(str string) ([]uint32, error) {
 }
 
 // PLCからの接点出力単体書き込み応答をパースして返します
-func ParseWriteIOSingle(str string) (bool, error) {
+func parseWriteIOSingle(str string) (bool, error) {
 	_, err := parseHeader(str)
 	if err != nil {
 		return false, err
@@ -50,7 +50,7 @@ func ParseWriteIOSingle(str string) (bool, error) {
 }
 
 // PLCからのデータエリア取得応答をパースして値を返す
-func ParseReadDataArea(str string) ([]uint32, error) {
+func parseReadDataArea(str string) ([]uint32, error) {
 	res, err := parseHeader(str)
 	if err != nil {
 		return nil, err
@@ -60,7 +60,7 @@ func ParseReadDataArea(str string) ([]uint32, error) {
 }
 
 // PLCからの接点出力単体書き込み応答をパースして返します
-func ParseWriteDataArea(str string) (bool, error) {
+func parseWriteDataArea(str string) (bool, error) {
 	_, err := parseHeader(str)
 	if err != nil {
 		return false, err

@@ -117,9 +117,10 @@ func header() string {
 
 // dstAddress 1 - 32, FF(255) is Global send.
 func address(ad uint) string {
-	if (ad < 1 || 32 < ad) || ad == 255 {
+	if (ad < 1 || 32 < ad) && ad != 255 {
 		panic(fmt.Sprintf("Invalid mewtocol address: %d", ad))
 	}
+
 	return fmt.Sprintf("%02d", ad)
 }
 

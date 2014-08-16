@@ -22,7 +22,7 @@ func ReadIOSingle(f *os.File, dst uint, contactCode string, contactNo uint) (boo
 	if err != nil {
 		return false, err
 	} else {
-		return ParseReadIOSingle(recvStr)
+		return parseReadIOSingle(recvStr)
 	}
 }
 
@@ -33,7 +33,7 @@ func ReadIOWord(f *os.File, dst uint, contactCode string, startNo uint, endNo ui
 	if err != nil {
 		return []uint32{}, err
 	} else {
-		return ParseReadIOWord(recvStr)
+		return parseReadIOWord(recvStr)
 	}
 }
 
@@ -45,7 +45,7 @@ func WriteIOSingle(f *os.File, dst uint, contactCode string, contactNo uint, sta
 	if err != nil {
 		return false, err
 	} else {
-		return ParseWriteIOSingle(recvStr)
+		return parseWriteIOSingle(recvStr)
 	}
 }
 
@@ -56,7 +56,7 @@ func ReadDataArea(f *os.File, dst uint, dataCode string, startNo uint, endNo uin
 	if err != nil {
 		return []uint32{}, err
 	} else {
-		return ParseReadDataArea(recvStr)
+		return parseReadDataArea(recvStr)
 	}
 }
 
@@ -67,7 +67,7 @@ func WriteDataArea(f *os.File, dst uint, dataCode string, startNo uint, values [
 	if err != nil {
 		return false, err
 	} else {
-		return ParseWriteDataArea(recvStr)
+		return parseWriteDataArea(recvStr)
 	}
 }
 
