@@ -86,7 +86,7 @@ func formatWriteDataArea(dstAddress uint, dataCode string, startWordNo uint, val
 		panic(fmt.Sprintln("invalid code:", dataCode))
 	}
 
-	valuesBin := []byte{}
+	valuesBin := make([]byte, 0, len(values))
 	index := 0
 	for i, val := range values {
 		hex := []byte(fmt.Sprintf("%04x", val))

@@ -72,13 +72,13 @@ func parseWriteDataArea(str string) (bool, error) {
 // byteのスライスを2バイトづつ数値に変換して、数値のスライスにして返す。
 func parseListData(data []byte) []uint32 {
 	count := len(data) / 4
-	list := []uint32{}
+	list := make([]uint32, 0, count)
 
 	for i := 0; i < count; i++ {
 		n := i * 4
 		valLower := data[(n + 0):(n + 2)] // 下位を前半に受信する
 		valUpper := data[(n + 2):(n + 4)] // 上位を後半で受信する
-		val := []byte{}
+		val := make([]byte, 0, 4)
 		val = append(val, valUpper...)
 		val = append(val, valLower...)
 		intVal, _ := strconv.ParseUint(string(val), 16, 32)

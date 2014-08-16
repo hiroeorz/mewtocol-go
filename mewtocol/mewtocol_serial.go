@@ -10,6 +10,10 @@ import (
 	"syscall"
 )
 
+const (
+	MAX_FLAME_SIZE int = 118
+)
+
 /*
 Test by console
 
@@ -66,7 +70,7 @@ func Write(f *os.File, str string) (int, error) {
 
 // シリアルポートからデータを読み込みます。
 func Read(f *os.File) (string, error) {
-	buff := []byte{}
+	buff := make([]byte, 0, MAX_FLAME_SIZE)
 
 	for {
 		byte := make([]byte, 1)

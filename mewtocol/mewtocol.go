@@ -31,7 +31,7 @@ func ReadIOWord(f *os.File, dst uint, contactCode string, startNo uint, endNo ui
 	sendStr := formatReadIOWord(dst, contactCode, startNo, endNo)
 	recvStr, err := send(f, sendStr)
 	if err != nil {
-		return []uint32{}, err
+		return nil, err
 	} else {
 		return parseReadIOWord(recvStr)
 	}
@@ -54,7 +54,7 @@ func ReadDataArea(f *os.File, dst uint, dataCode string, startNo uint, endNo uin
 	sendStr := formatReadDataArea(dst, dataCode, startNo, endNo)
 	recvStr, err := send(f, sendStr)
 	if err != nil {
-		return []uint32{}, err
+		return nil, err
 	} else {
 		return parseReadDataArea(recvStr)
 	}
