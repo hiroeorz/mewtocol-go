@@ -90,8 +90,8 @@ func parseListData(data []byte) []uint {
 
 func parseHeader(str string) (*Mewtocol, error) {
 	buff := []byte(str)
-
 	success := string(buff[3])
+
 	if success == "$" {
 		header := string(buff[0])
 		address, _ := strconv.ParseInt(string(buff[1:3]), 10, 16)

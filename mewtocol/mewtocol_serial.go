@@ -45,16 +45,59 @@ Now, you caught response in console1
 
 */
 
+type Serial struct {
+	ReqCh chan string
+	ResCh chan string
+}
+
 // Mewtocol通信用にシリアルポートをオープンします
 // setupCommand: exp: "stty -F /dev/ttyAPP4 9600 parenb parodd cs8 -cstopb cread -crtscts"
-func OpenPLC(name string, setupCommand string) (*os.File, error) {
+func OpenPLC(name string, setupCommand string) (*Serial, error) {
 	execCommand(setupCommand)
 	f, err := os.OpenFile(name, syscall.O_RDWR|syscall.O_NOCTTY, 0666)
 	if err != nil {
 		return nil, err
 	}
 
-	return f, nil
+	reqCh := make(chan string, 0) // for request
+	resCh := make(chan string, 0) // for response
+	plc := &Serial{ReqCh: reqCh, ResCh: resCh}
+	go deviceLoop(f, plc)
+
+	return plc, nil
+}
+
+// ファイルに直接書き込み/読み込みするgoroutine
+func deviceLoop(f *os.File, plc *Serial) {
+	defer f.Close()
+
+	for {
+		sendStr := <-plc.ReqCh
+		recvStr, err := send(f, sendStr)
+
+		if err != nil {
+			plc.ResCh <- ""
+		} else {
+			plc.ResCh <- recvStr
+		}
+	}
+}
+
+// 与えられた文字列を送信し、指定サイズのレスポンスを受信して返す。
+func send(f *os.File, sendStr string) (string, error) {
+	_, err := Write(f, sendStr)
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	}
+
+	recvStr, err := Read(f)
+	if err != nil {
+		log.Fatal(err)
+		return "", err
+	} else {
+		return recvStr, nil
+	}
 }
 
 // シリアルポートにデータを書き込みます。

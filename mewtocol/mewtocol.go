@@ -1,9 +1,8 @@
 package mewtocol
 
 import (
+	"errors"
 	"fmt"
-	"log"
-	"os"
 	"strings"
 )
 
@@ -16,22 +15,27 @@ import (
 // "C"  カウンタ
 
 // 指定した1点の接点状態を読み出す
-func ReadIOSingle(f *os.File, dst uint, contactCode string, contactNo uint) (bool, error) {
+func ReadIOSingle(plc *Serial, dst uint, contactCode string, contactNo uint) (bool, error) {
+	fmt.Println("channel!")
 	sendStr := formatReadIOSingle(dst, contactCode, contactNo)
-	recvStr, err := send(f, sendStr)
-	if err != nil {
-		return false, err
+	plc.ReqCh <- sendStr
+	recvStr := <-plc.ResCh
+
+	if recvStr == "" {
+		return false, errors.New("failed to communicate with PLC")
 	} else {
 		return parseReadIOSingle(recvStr)
 	}
 }
 
 // 指定したワード単位での接点状態を読み出す
-func ReadIOWord(f *os.File, dst uint, contactCode string, startNo uint, endNo uint) ([]uint, error) {
+func ReadIOWord(plc *Serial, dst uint, contactCode string, startNo uint, endNo uint) ([]uint, error) {
 	sendStr := formatReadIOWord(dst, contactCode, startNo, endNo)
-	recvStr, err := send(f, sendStr)
-	if err != nil {
-		return nil, err
+	plc.ReqCh <- sendStr
+	recvStr := <-plc.ResCh
+
+	if recvStr == "" {
+		return nil, errors.New("failed to communicate with PLC")
 	} else {
 		return parseReadIOWord(recvStr)
 	}
@@ -39,52 +43,41 @@ func ReadIOWord(f *os.File, dst uint, contactCode string, startNo uint, endNo ui
 
 // 指定した1点の接点出力を書き込む
 // 出力をONにするときはstateにtrueを、OFFにするときはfalseを指定してください
-func WriteIOSingle(f *os.File, dst uint, contactCode string, contactNo uint, state bool) (bool, error) {
+func WriteIOSingle(plc *Serial, dst uint, contactCode string, contactNo uint, state bool) (bool, error) {
 	sendStr := formatWriteIOSingle(dst, contactCode, contactNo, state)
-	recvStr, err := send(f, sendStr)
-	if err != nil {
-		return false, err
+	plc.ReqCh <- sendStr
+	recvStr := <-plc.ResCh
+
+	if recvStr == "" {
+		return false, errors.New("failed to communicate with PLC")
 	} else {
 		return parseWriteIOSingle(recvStr)
 	}
 }
 
 // 指定したワード単位でのデータエリア状態を読み出す
-func ReadDataArea(f *os.File, dst uint, dataCode string, startNo uint, endNo uint) ([]uint, error) {
+func ReadDataArea(plc *Serial, dst uint, dataCode string, startNo uint, endNo uint) ([]uint, error) {
 	sendStr := formatReadDataArea(dst, dataCode, startNo, endNo)
-	recvStr, err := send(f, sendStr)
-	if err != nil {
-		return nil, err
+	plc.ReqCh <- sendStr
+	recvStr := <-plc.ResCh
+
+	if recvStr == "" {
+		return nil, errors.New("failed to communicate with PLC")
 	} else {
 		return parseReadDataArea(recvStr)
 	}
 }
 
 // 配列の引数として渡された値をデータエリアへ書き込む。
-func WriteDataArea(f *os.File, dst uint, dataCode string, startNo uint, values []uint32) (bool, error) {
+func WriteDataArea(plc *Serial, dst uint, dataCode string, startNo uint, values []uint32) (bool, error) {
 	sendStr := formatWriteDataArea(dst, dataCode, startNo, values)
-	recvStr, err := send(f, sendStr)
-	if err != nil {
-		return false, err
+	plc.ReqCh <- sendStr
+	recvStr := <-plc.ResCh
+
+	if recvStr == "" {
+		return false, errors.New("failed to communicate with PLC")
 	} else {
 		return parseWriteDataArea(recvStr)
-	}
-}
-
-// 与えられた文字列を送信し、指定サイズのレスポンスを受信して返す。
-func send(f *os.File, sendStr string) (string, error) {
-	_, err := Write(f, sendStr)
-	if err != nil {
-		log.Fatal(err)
-		return "", err
-	}
-
-	recvStr, err := Read(f)
-	if err != nil {
-		log.Fatal(err)
-		return "", err
-	} else {
-		return recvStr, nil
 	}
 }
 
