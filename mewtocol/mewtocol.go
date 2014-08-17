@@ -27,7 +27,7 @@ func ReadIOSingle(f *os.File, dst uint, contactCode string, contactNo uint) (boo
 }
 
 // 指定したワード単位での接点状態を読み出す
-func ReadIOWord(f *os.File, dst uint, contactCode string, startNo uint, endNo uint) ([]uint32, error) {
+func ReadIOWord(f *os.File, dst uint, contactCode string, startNo uint, endNo uint) ([]uint, error) {
 	sendStr := formatReadIOWord(dst, contactCode, startNo, endNo)
 	recvStr, err := send(f, sendStr)
 	if err != nil {
@@ -50,7 +50,7 @@ func WriteIOSingle(f *os.File, dst uint, contactCode string, contactNo uint, sta
 }
 
 // 指定したワード単位でのデータエリア状態を読み出す
-func ReadDataArea(f *os.File, dst uint, dataCode string, startNo uint, endNo uint) ([]uint32, error) {
+func ReadDataArea(f *os.File, dst uint, dataCode string, startNo uint, endNo uint) ([]uint, error) {
 	sendStr := formatReadDataArea(dst, dataCode, startNo, endNo)
 	recvStr, err := send(f, sendStr)
 	if err != nil {

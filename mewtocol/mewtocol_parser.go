@@ -30,7 +30,7 @@ func parseReadIOSingle(str string) (bool, error) {
 }
 
 // PLCからの接点ワード単位取得応答をパースして値を返す
-func parseReadIOWord(str string) ([]uint32, error) {
+func parseReadIOWord(str string) ([]uint, error) {
 	res, err := parseHeader(str)
 	if err != nil {
 		return nil, err
@@ -50,7 +50,7 @@ func parseWriteIOSingle(str string) (bool, error) {
 }
 
 // PLCからのデータエリア取得応答をパースして値を返す
-func parseReadDataArea(str string) ([]uint32, error) {
+func parseReadDataArea(str string) ([]uint, error) {
 	res, err := parseHeader(str)
 	if err != nil {
 		return nil, err
@@ -70,9 +70,9 @@ func parseWriteDataArea(str string) (bool, error) {
 }
 
 // byteのスライスを2バイトづつ数値に変換して、数値のスライスにして返す。
-func parseListData(data []byte) []uint32 {
+func parseListData(data []byte) []uint {
 	count := len(data) / 4
-	list := make([]uint32, 0, count)
+	list := make([]uint, 0, count)
 
 	for i := 0; i < count; i++ {
 		n := i * 4
@@ -82,7 +82,7 @@ func parseListData(data []byte) []uint32 {
 		val = append(val, valUpper...)
 		val = append(val, valLower...)
 		intVal, _ := strconv.ParseUint(string(val), 16, 32)
-		list = append(list, uint32(intVal))
+		list = append(list, uint(intVal))
 	}
 
 	return list

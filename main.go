@@ -78,7 +78,7 @@ func main() {
 	// 外部出力のステータスをワード単位で取得する。
 	// 外部出力を 0:オン 1:オフ 2:オン、残り全てオフの場合、0番目の値は2進数で```00000101```となり、
 	// 結果として```[5, 0, 0]```を得ます。
-	var stateWords []uint32
+	var stateWords []uint
 
 	stateWords, err = mewtocol.ReadIOWord(f, dst, "Y", 0, 2)
 	fmt.Println("output list->", stateWords)
